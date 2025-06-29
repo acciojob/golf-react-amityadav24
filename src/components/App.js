@@ -1,13 +1,11 @@
-// src/App.jsx
 import React, { Component } from 'react';
-import './App.css'; // For optional styles
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      started: false,        // show/hide ball
-      ballPosition: 0,       // horizontal position
+      started: false,
+      ballPosition: 0,
     };
   }
 
@@ -19,8 +17,8 @@ class App extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown = (e) => {
-    if (this.state.started && (e.key === 'ArrowRight' || e.keyCode === 39)) {
+  handleKeyDown = (event) => {
+    if ((event.key === 'ArrowRight' || event.keyCode === 39) && this.state.started) {
       this.setState((prevState) => ({
         ballPosition: prevState.ballPosition + 5,
       }));
@@ -37,7 +35,7 @@ class App extends Component {
         <div
           className="ball"
           style={{
-            left: this.state.ballPosition + 'px',
+            left: `${this.state.ballPosition}px`,
             position: 'absolute',
           }}
         ></div>
