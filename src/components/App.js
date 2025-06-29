@@ -21,13 +21,13 @@ class App extends Component {
 
   handleKeyDown(event) {
     if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
-      this.setState((prev) => ({
-        ballPosition: prev.ballPosition + 5
+      this.setState((prevState) => ({
+        ballPosition: prevState.ballPosition + 5
       }));
     }
   }
 
-  handleStart = () => {
+  startGame = () => {
     this.setState({ renderBall: true });
   };
 
@@ -35,7 +35,7 @@ class App extends Component {
     return (
       <div className="playground">
         {!this.state.renderBall && (
-          <button className="start" onClick={this.handleStart}>
+          <button className="start" onClick={this.startGame}>
             Start
           </button>
         )}
