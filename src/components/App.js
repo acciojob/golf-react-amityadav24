@@ -20,38 +20,39 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
-      this.setState((prevState) => ({
-        ballPosition: prevState.ballPosition + 5
+    if (
+      (event.key === "ArrowRight" || event.keyCode === 39) &&
+      this.state.renderBall
+    ) {
+      this.setState((prev) => ({
+        ballPosition: prev.ballPosition + 5
       }));
     }
   }
 
-  renderBallOrButton() {
-    if (this.state.renderBall) {
-      return (
-        <div
-          className="ball"
-          style={{
-            left: `${this.state.ballPosition}px`,
-            position: "absolute"
-          }}
-        ></div>
-      );
-    } else {
-      return (
-        <button
-          className="start"
-          onClick={() => this.setState({ renderBall: true })}
-        >
-          Start
-        </button>
-      );
-    }
-  }
+  handleStart = () => {
+    this.setState({ renderBall: true });
+  };
 
   render() {
-    return <div className="playground">{this.renderBallOrButton()}</div>;
+    return (
+      <div className="playground">
+        {!this.state.renderBall && (
+          <button className="start" onClick={this.handleStart}>
+            Start
+          </button>
+        )}
+        {this.state.renderBall && (
+          <div
+            className="ball"
+            style={{
+              position: "absolute",
+              left: `${this.state.ballPosition}px`
+            }}
+          />
+        )}
+      </div>
+    );
   }
 }
 
