@@ -20,12 +20,10 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    if (event.key === "ArrowRight" || event.keyCode === 39) {
-      if (this.state.renderBall) {
-        this.setState((prevState) => ({
-          ballPosition: prevState.ballPosition + 5
-        }));
-      }
+    if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
+      this.setState((prevState) => ({
+        ballPosition: prevState.ballPosition + 5
+      }));
     }
   }
 
@@ -34,12 +32,18 @@ class App extends Component {
       return (
         <div
           className="ball"
-          style={{ left: `${this.state.ballPosition}px`, position: "absolute" }}
+          style={{
+            left: `${this.state.ballPosition}px`,
+            position: "absolute"
+          }}
         ></div>
       );
     } else {
       return (
-        <button className="start" onClick={() => this.setState({ renderBall: true })}>
+        <button
+          className="start"
+          onClick={() => this.setState({ renderBall: true })}
+        >
           Start
         </button>
       );
