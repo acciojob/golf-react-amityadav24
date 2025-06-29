@@ -20,10 +20,7 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    if (
-      (event.key === "ArrowRight" || event.keyCode === 39) &&
-      this.state.renderBall
-    ) {
+    if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
       this.setState((prev) => ({
         ballPosition: prev.ballPosition + 5
       }));
@@ -49,7 +46,7 @@ class App extends Component {
               position: "absolute",
               left: `${this.state.ballPosition}px`
             }}
-          />
+          ></div>
         )}
       </div>
     );
