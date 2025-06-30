@@ -20,10 +20,13 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
+    console.log("Key pressed:", event.key, "renderBall:", this.state.renderBall); // Add this line
+
     if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
       this.setState((prevState) => ({
         ballPosition: prevState.ballPosition + 5
       }));
+      console.log("Ball position updated to:", this.state.ballPosition + 5); // Add this line
     }
   }
 
