@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import ".styles/App.css";
-class App extends Component {
+
+class GolfGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameStarted: false,
-      ballPosition: 0,
+      showBall: false,    // false = show Start button; true = show ball
+      ballLeft: 0,        // ball horizontal position in pixels
     };
   }
 
@@ -18,78 +18,54 @@ class App extends Component {
   }
 
   handleKeyDown = (event) => {
-    if (
-      this.state.gameStarted &&
-      (event.key === "ArrowRight" || event.keyCode === 39)
-    ) {
-      this.setState((prevState) => {
-        // Limit ball movement so it doesn't go off screen (optional)
-        const maxRight = window.innerWidth - 60; // ball width + some padding
-        const nextPos = prevState.ballPosition + 5;
-        return {
-          ballPosition: nextPos > maxRight ? maxRight : nextPos,
-        };
-      });
+    // Only move ball if it is shown and Right Arrow key pressed
+    if (this.state.showBall && (event.keyCode === 39 || event.key === "ArrowRight")) {
+      this.setState((prevState) => ({
+        ballLeft: prevState.ballLeft + 5,
+      }));
     }
   };
 
   buttonClickHandler = () => {
-    this.setState({
-      gameStarted: true,
-      ballPosition: 0,
-    });
+    // Hide start button and show ball, reset position
+    this.setState({ showBall: true, ballLeft: 0 });
   };
 
+  renderChoice() {
+    if (!this.state.showBall) {
+      // Show Start button initially
+      return (
+        <button className="start" onClick={this.buttonClickHandler}>
+          Start
+        </button>
+      );
+    } else {
+      // Show ball when game started
+      return (
+        <div
+          className="ball"
+          style={{
+            position: "absolute",
+            left: this.state.ballLeft + "px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            backgroundColor: "green",
+          }}
+        />
+      );
+    }
+  }
+
   render() {
-    const { gameStarted, ballPosition } = this.state;
-
     return (
-      <div
-        style={{
-          position: "relative",
-          height: "100vh",
-          backgroundColor: "white",
-          overflow: "hidden",
-        }}
-      >
-        {!gameStarted && (
-          <button
-            className="start"
-            onClick={this.buttonClickHandler}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              padding: "15px 30px",
-              fontSize: "1.2rem",
-              cursor: "pointer",
-            }}
-          >
-            Start
-          </button>
-        )}
-
-        {gameStarted && (
-          <div
-            className="ball"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: ballPosition + "px",
-              transform: "translateY(-50%)",
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
-              backgroundColor: "green",
-              transition: "left 0.1s ease",
-              boxShadow: "0 0 8px 2px rgba(0, 128, 0, 0.5)",
-            }}
-          />
-        )}
+      <div style={{ position: "relative", height: "100vh" }}>
+        {this.renderChoice()}
       </div>
     );
   }
 }
 
-export default App;
+export default GolfGame;
