@@ -5,47 +5,41 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBall: false,
+      gameStarted: false,
       ballPosition: 0
     };
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleStart = () => {
-    this.setState({ showBall: true });
+  handleStartGame = () => {
+    this.setState({ gameStarted: true });
   };
 
-  handleKeyDown = (e) => {
-    if (e.key === 'ArrowRight' || e.keyCode === 39) {
+  handleKeyDown(event) {
+    if (event.key === 'ArrowRight' && this.state.gameStarted) {
       this.setState(prevState => ({
         ballPosition: prevState.ballPosition + 5
       }));
     }
-  };
+  }
 
   render() {
     return (
-      <div className="App">
-        {!this.state.showBall ? (
-          <button className="start" onClick={this.handleStart}>
+      <div className="main">
+        {!this.state.gameStarted ? (
+          <button className="start" onClick={this.handleStartGame}>
             Start Game
           </button>
         ) : (
-          <div 
-            className="ball" 
-            style={{
-              position: 'absolute',
-              left: `${this.state.ballPosition}px`,
-              top: '50%'
-            }}
-          />
+          <div className="ball" style={{ left: `${this.state.ballPosition}px` }} />
         )}
       </div>
     );
