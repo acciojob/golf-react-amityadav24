@@ -1,56 +1,58 @@
-import React, { Component } from 'react';
-import '.styles/App.css';
+import React from 'react';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ballVisible: false,
-      ballPosition: 0,
+      isBallVisible: false,
+      ballPosition: 0
     };
   }
 
-  buttonClickHandler = () => {
-    this.setState({ ballVisible: true });
+  handleButtonClick = () => {
+    this.setState({ isBallVisible: true });
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = (event) => {
-    if (event.key === 'ArrowRight' || event.keyCode === 39) { // Check for ArrowRight key
-      this.setState((prevState) => ({
-        ballPosition: prevState.ballPosition + 5,
+  handleKeyDown = (e) => {
+    if (e.key === 'ArrowRight' || e.keyCode === 39) {
+      this.setState(prevState => ({
+        ballPosition: prevState.ballPosition + 5
       }));
     }
   };
 
-  renderChoice() {
-    if (this.state.ballVisible) {
-      return (
-        <div
-          className="ball"
-          style={{ position: 'absolute', left: this.state.ballPosition + 'px', top: '50%' }}
-        ></div>
-      );
-    } else {
-      return (
-        <button className="start" onClick={this.buttonClickHandler}>
-          Start Game
-        </button>
-      );
-    }
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   render() {
     return (
-      <div className="App">
-        {this.renderChoice()}
+      <div>
+        {!this.state.isBallVisible ? (
+          <button 
+            className="start" 
+            onClick={this.handleButtonClick}
+          >
+            Start Game
+          </button>
+        ) : (
+          <div 
+            className="ball" 
+            style={{
+              position: 'absolute',
+              left: `${this.state.ballPosition}px`,
+              top: '50%',
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'red',
+              borderRadius: '50%'
+            }}
+          />
+        )}
       </div>
     );
   }
