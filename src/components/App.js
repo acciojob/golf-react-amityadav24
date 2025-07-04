@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   handleKeyDown = (event) => {
-    if (event.keyCode === 39) { // Right Arrow key
+    if (event.key === 'ArrowRight' || event.keyCode === 39) { // Check for ArrowRight key
       this.setState((prevState) => ({
         ballPosition: prevState.ballPosition + 5,
       }));
