@@ -1,19 +1,24 @@
-.App {
+.main {
   position: relative;
   height: 100vh;
 }
 
 .start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
 }
 
 .ball {
+  position: absolute;
+  top: 50%;
   width: 20px;
   height: 20px;
   background-color: red;
   border-radius: 50%;
-  position: absolute;
   transform: translateY(-50%);
 }
