@@ -1,16 +1,25 @@
-import React from 'react';
+import React from "react";
+import './../styles/App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBallVisible: false,
+      showBall: false,
       ballPosition: 0
     };
   }
 
-  handleButtonClick = () => {
-    this.setState({ isBallVisible: true });
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleStart = () => {
+    this.setState({ showBall: true });
   };
 
   handleKeyDown = (e) => {
@@ -21,22 +30,11 @@ class App extends React.Component {
     }
   };
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
   render() {
     return (
-      <div>
-        {!this.state.isBallVisible ? (
-          <button 
-            className="start" 
-            onClick={this.handleButtonClick}
-          >
+      <div className="App">
+        {!this.state.showBall ? (
+          <button className="start" onClick={this.handleStart}>
             Start Game
           </button>
         ) : (
@@ -45,11 +43,7 @@ class App extends React.Component {
             style={{
               position: 'absolute',
               left: `${this.state.ballPosition}px`,
-              top: '50%',
-              width: '20px',
-              height: '20px',
-              backgroundColor: 'red',
-              borderRadius: '50%'
+              top: '50%'
             }}
           />
         )}
