@@ -1,55 +1,66 @@
 import React, { Component } from "react";
-import "./styles/App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      renderBall: false,
-      ballPosition: 0
+      gameStarted: false,
+      ballPosition: 0,
     };
-    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  handleKeyDown(event) {
-    console.log("Key pressed:", event.key, "renderBall:", this.state.renderBall); // Add this line
-
-    if ((event.key === "ArrowRight" || event.keyCode === 39) && this.state.renderBall) {
+  handleKeyDown = (event) => {
+    if (
+      this.state.gameStarted &&
+      (event.key === "ArrowRight" || event.keyCode === 39)
+    ) {
       this.setState((prevState) => ({
-        ballPosition: prevState.ballPosition + 5
+        ballPosition: prevState.ballPosition + 5,
       }));
-      console.log("Ball position updated to:", this.state.ballPosition + 5); // Add this line
     }
-  }
+  };
 
-  startGame = () => {
-    this.setState({ renderBall: true });
+  buttonClickHandler = () => {
+    this.setState({
+      gameStarted: true,
+      ballPosition: 0,
+    });
   };
 
   render() {
+    const { gameStarted, ballPosition } = this.state;
+
     return (
-      <div className="playground">
-        {!this.state.renderBall && (
-          <button className="start" onClick={this.startGame}>
+      <div style={{ position: "relative", height: "100vh" }}>
+        {!gameStarted && (
+          <button className="start" onClick={this.buttonClickHandler}>
             Start
           </button>
         )}
-        {this.state.renderBall && (
+
+        {gameStarted && (
           <div
             className="ball"
             style={{
               position: "absolute",
-              left: `${this.state.ballPosition}px`
+              top: "50%",
+              left: ballPosition + "px",
+              transform: "translateY(-50%)",
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              backgroundColor: "green",
+              transition: "left 0.1s ease",
             }}
-          ></div>
+          />
         )}
       </div>
     );
